@@ -1,0 +1,28 @@
+name: Design QA
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  design-qa:
+    runs-on: ubuntu-latest
+    if: ${{ vars.FIGMA_FRAME_URL != '' && vars.QA_SITE_URL != '' }}
+    container:
+      image: mcr.microsoft.com/playwright:v1.48.0-noble
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install and build worker
+        working-directory: worker
+        run: npm ci && npm run build
+      - name: Run audit
+        working-directory: worker
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+        run: node dist/cli.js --figma "${{ vars.FIGMA_FRAME_URL }}" --site "${{ vars.QA_SITE_URL }}" --out ../qa-report --min-score "${{ vars.QA_MIN_SCORE || '0' }}"
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-qa-report
+          path: qa-report

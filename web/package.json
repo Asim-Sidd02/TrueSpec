@@ -1,0 +1,25 @@
+{
+  "name": "figma-dom-qa-web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "sync-types": "node -e \"const fs=require('fs');fs.existsSync('../shared/types.ts')&&fs.copyFileSync('../shared/types.ts','src/shared/types.ts')\"",
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000"
+  },
+  "dependencies": {
+    "next": "14.2.15",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
+  }
+}
